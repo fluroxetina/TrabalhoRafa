@@ -1,4 +1,4 @@
-<?php 
+<?php
     include 'db.php';
 
     $db = new Database();
@@ -6,40 +6,60 @@
     $sql = "SELECT * FROM Espacos";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+    // Consulta para obter os valores ENUM
+    $sql = "SHOW COLUMNS FROM Espacos LIKE 'tipo'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Extrair os valores ENUM
+    if ($result) {
+        $type = $result['Type']; // Exemplo: "enum('Sala','Laboratórios','Quadras Esportivas')"
+        preg_match("/^enum\((.*)\)$/", $type, $matches);
+        $enumValues = isset($matches[1]) ? explode(",", str_replace("'", "", $matches[1])) : [];
+    } else {
+        $enumValues = [];
+    }
+
 ?>
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Espaços</title>
 </head>
+
 <body>
     <h1>Cadastrar novos espaços</h1>
     <form method="POST">
-        <label for="nome">Nome</label>
-        <input type="text" name="nome" placeholder="Nome" >
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" placeholder="Nome">
 
-        <label for="tipo">Tipo</label>
-        <select name="tipo" required>
-            <option value="Sala">Salas de Reunião</option>
-            <option value="laboratórios">Laboratórios</option>
-            <option value="quadras esportiva">Quadras Esportivas</option>
-            
-            
+        <label for="tipo">Tipo:</label>
+
+        <select name="tipo" id="tipo">
+            <option value="">Selecione um tipo</option>
+            <?php foreach ($enumValues as $value): ?>
+                <option value="<?php echo htmlspecialchars($value); ?>">
+                    <?php echo htmlspecialchars($value); ?>
+                </option>
+            <?php endforeach; ?>
         </select>
 
-        <label for="capacidade">Capacidade</label>
-        <input type="text" name="capacidade" placeholder="Capacidade" >
+        <label for="capacidade">Capacidade:</label>
+        <input type="number" name="capacidade" id="capacidade" placeholder="Capacidade">
 
-        <label for="descricao">Descrição</label>
-        <input type="text" name="descricao" placeholder="Descrição" >
+        <label for="descricao">Descrição:</label>
+        <input type="text" name="descricao" id="descricao" placeholder="Descrição">
 
         <button type="submit">Cadastrar</button>
     </form>
-    <h1>Espaços Cadastrados</h1>
 
+    <h1>Espaços Cadastrados</h1>
     <table border="1">
         <thead>
             <tr>
@@ -50,31 +70,38 @@
             </tr>
         </thead>
         <tbody>
-            <?php 
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['nome']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['tipo']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['capacidade']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['descricao']) . "</td>";
-                    echo "</tr>";
-                }
-            ?>
+            <?php
+            // Exibir registros existentes
+            $sql = "SELECT * FROM Espacos";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                    <td><?php echo htmlspecialchars($row['tipo']); ?></td>
+                    <td><?php echo htmlspecialchars($row['capacidade']); ?></td>
+                    <td><?php echo htmlspecialchars($row['descricao']); ?></td>
+                </tr>
+            <?php endwhile; ?>
         </tbody>
     </table>
-
 </body>
+
+
 </html>
+<?php
 
-<?php 
-    
 
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $nome = $_POST['nome'];
-        $tipo = $_POST['tipo'];
-        $capacidade = $_POST['capacidade'];
-        $descricao = $_POST['descricao'];
+// Lógica para cadastrar espaço
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = trim($_POST['nome']);
+    $tipo = trim($_POST['tipo']);
+    $capacidade = trim($_POST['capacidade']);
+    $descricao = trim($_POST['descricao']);
 
+    if (empty($nome) || empty($tipo) || empty($capacidade) || empty($descricao)) {
+        echo "Preencha todos os campos!";
+    } else {
         try {
             $sql = "INSERT INTO Espacos (nome, tipo, capacidade, descricao) VALUES(:nome, :tipo, :capacidade, :descricao)";
             $stmt = $conn->prepare($sql);
@@ -86,6 +113,8 @@
 
             if ($stmt->execute()) {
                 echo "Espaço cadastrado com sucesso!";
+                header("Location: CadastrarEspaco.php");
+                exit;
             } else {
                 echo "Erro ao cadastrar o espaço.";
             }
@@ -93,5 +122,5 @@
             echo "Erro: " . $e->getMessage();
         }
     }
+}
 ?>
-
