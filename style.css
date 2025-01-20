@@ -1,0 +1,51 @@
+.CadastrarNovoEspaco {
+    max-width: 500px;
+    margin: 50px auto; /* Centraliza o formulário */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.CadastrarNovoEspaco .titulos {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.CadastrarNovoEspaco input[type="text"],
+.CadastrarNovoEspaco select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box; /* Garante que padding não afeta o tamanho */
+}
+
+.CadastrarNovoEspaco input[type="text"]:focus,
+.CadastrarNovoEspaco select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.CadastrarNovoEspaco button {
+    width: 100%;
+    padding: 10px;
+    background-color: #68a5e7;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.CadastrarNovoEspaco button:hover {
+    background-color: #0056b3;
+}
