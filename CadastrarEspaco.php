@@ -67,6 +67,7 @@
                 <th>Tipo</th>
                 <th>Capacidade</th>
                 <th>Descrição</th>
+                <th>Ação</th>
             </tr>
         </thead>
         <tbody>
