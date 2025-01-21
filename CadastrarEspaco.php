@@ -1,25 +1,25 @@
 <?php
-    include 'db.php';
+include 'db.php';
 
-    $db = new Database();
-    $conn = $db->connect();
-    $sql = "SELECT * FROM Espacos";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    // Consulta para obter os valores ENUM
-    $sql = "SHOW COLUMNS FROM Espacos LIKE 'tipo'";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$db = new Database();
+$conn = $db->connect();
+$sql = "SELECT * FROM Espacos";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+// Consulta para obter os valores ENUM
+$sql = "SHOW COLUMNS FROM Espacos LIKE 'tipo'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Extrair os valores ENUM
-    if ($result) {
-        $type = $result['Type']; // Exemplo: "enum('Sala','Laboratórios','Quadras Esportivas')"
-        preg_match("/^enum\((.*)\)$/", $type, $matches);
-        $enumValues = isset($matches[1]) ? explode(",", str_replace("'", "", $matches[1])) : [];
-    } else {
-        $enumValues = [];
-    }
+// Extrair os valores ENUM
+if ($result) {
+    $type = $result['Type']; // Exemplo: "enum('Sala','Laboratórios','Quadras Esportivas')"
+    preg_match("/^enum\((.*)\)$/", $type, $matches);
+    $enumValues = isset($matches[1]) ? explode(",", str_replace("'", "", $matches[1])) : [];
+} else {
+    $enumValues = [];
+}
 
 ?>
 
@@ -31,11 +31,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Espaços</title>
+    <link rel="stylesheet" href="EspacoStyle.css">
 </head>
 
 <body>
-    <h1>Cadastrar novos espaços</h1>
-    <form method="POST">
+    <h1 class="titulo">CADASTRAR NOVOS ESPAÇOS</h1>
+    <form class="CadastrarNovoEspaco" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" id="nome" placeholder="Nome">
 
@@ -51,7 +52,7 @@
         </select>
 
         <label for="capacidade">Capacidade:</label>
-        <input type="number" name="capacidade" id="capacidade" placeholder="Capacidade">
+        <input type="text" name="capacidade" id="capacidade" placeholder="Capacidade">
 
         <label for="descricao">Descrição:</label>
         <input type="text" name="descricao" id="descricao" placeholder="Descrição">
@@ -59,33 +60,37 @@
         <button type="submit">Cadastrar</button>
     </form>
 
-    <h1>Espaços Cadastrados</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Capacidade</th>
-                <th>Descrição</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            // Exibir registros existentes
-            $sql = "SELECT * FROM Espacos";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+    <h1 class="titulo">Espaços Cadastrados</h1>
+    <div class="espacoCadastrados">
+        <table border="1">
+            <thead>
                 <tr>
-                    <td><?php echo htmlspecialchars($row['nome']); ?></td>
-                    <td><?php echo htmlspecialchars($row['tipo']); ?></td>
-                    <td><?php echo htmlspecialchars($row['capacidade']); ?></td>
-                    <td><?php echo htmlspecialchars($row['descricao']); ?></td>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Capacidade</th>
+                    <th>Descrição</th>
+                    <th>Ação</th>
                 </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                // Exibir registros existentes
+                $sql = "SELECT * FROM Espacos";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td><?php echo htmlspecialchars($row['tipo']); ?></td>
+                        <td><?php echo htmlspecialchars($row['capacidade']); ?></td>
+                        <td><?php echo htmlspecialchars($row['descricao']); ?></td>
+                    </tr>
+
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 
