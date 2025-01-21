@@ -3,7 +3,9 @@ include 'db.php';
 
 $db = new Database();
 $conn = $db->connect();
-
+$sql = "SELECT * FROM Espacos";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 // Consulta para obter os valores ENUM
 $sql = "SHOW COLUMNS FROM Espacos LIKE 'tipo'";
 $stmt = $conn->prepare($sql);
@@ -19,34 +21,36 @@ if ($result) {
     $enumValues = [];
 }
 
+
 // Mensagem de feedback
-$feedback = "";
+// $feedback = "";
 
-// Lógica para deletar espaço
-if (isset($_POST['deletar'])) {
-    $idEspaco = intval($_POST['idEspaco']);
-    try {
-        // Verificar se o espaço está associado a uma reserva
-        $checkSql = "SELECT COUNT(*) AS total FROM reserva WHERE idEspacoE = :idEspaco";
-        $checkStmt = $conn->prepare($checkSql);
-        $checkStmt->bindParam(":idEspaco", $idEspaco, PDO::PARAM_INT);
-        $checkStmt->execute();
-        $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
+// // Lógica para deletar espaço
+// if (isset($_POST['deletar'])) {
+//     $idEspaco = intval($_POST['idEspaco']);
+//     try {
+//         // Verificar se o espaço está associado a uma reserva
+//         $checkSql = "SELECT COUNT(*) AS total FROM reserva WHERE idEspacoE = :idEspaco";
+//         $checkStmt = $conn->prepare($checkSql);
+//         $checkStmt->bindParam(":idEspaco", $idEspaco, PDO::PARAM_INT);
+//         $checkStmt->execute();
+//         $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
-        $deleteSql = "DELETE FROM Espacos WHERE idEspacos = :idEspaco";
-        $deleteStmt = $conn->prepare($deleteSql);
-        $deleteStmt->bindParam(":idEspaco", $idEspaco, PDO::PARAM_INT);
+//         $deleteSql = "DELETE FROM Espacos WHERE idEspacos = :idEspaco";
+//         $deleteStmt = $conn->prepare($deleteSql);
+//         $deleteStmt->bindParam(":idEspaco", $idEspaco, PDO::PARAM_INT);
 
-        if ($deleteStmt->execute()) {
-            $feedback = "Espaço deletado com sucesso!";
-        } else {
-            $feedback = "Erro ao deletar o espaço.";
-        }
-        }
-    catch (PDOException $e) {
-        $feedback = "Erro: " . $e->getMessage();
-    }
-}
+//         if ($deleteStmt->execute()) {
+//             $feedback = "Espaço deletado com sucesso!";
+//         } else {
+//             $feedback = "Erro ao deletar o espaço.";
+//         }
+//         }
+//     catch (PDOException $e) {
+//         $feedback = "Erro: " . $e->getMessage();
+//     }
+// }
+
 
 // Lógica para cadastrar espaço
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
@@ -90,11 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
 </head>
 
 <body>
-    <h1>Cadastrar novos espaços</h1>
-    <?php if (!empty($feedback)): ?>
-        <p style="color: red;"><?php echo htmlspecialchars($feedback); ?></p>
-    <?php endif; ?>
-    <form method="POST">
+    <h1 class="titulo">CADASTRAR NOVOS ESPAÇOS</h1>
+    <form class="CadastrarNovoEspaco" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" id="nome" placeholder="Nome">
 
@@ -109,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
         </select>
 
         <label for="capacidade">Capacidade:</label>
-        <input type="number" name="capacidade" id="capacidade" placeholder="Capacidade">
+        <input type="text" name="capacidade" id="capacidade" placeholder="Capacidade">
 
         <label for="descricao">Descrição:</label>
         <input type="text" name="descricao" id="descricao" placeholder="Descrição">
@@ -117,24 +118,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
         <button type="submit">Cadastrar</button>
     </form>
 
-    <h1>Espaços Cadastrados</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Capacidade</th>
-                <th>Descrição</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            // Exibir registros existentes
-            $sql = "SELECT * FROM Espacos";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+    <h1 class="titulo">Espaços Cadastrados</h1>
+    <div class="espacoCadastrados">
+        <table border="1">
+            <thead>
                 <tr>
                     <td><?php echo htmlspecialchars($row['nome']); ?></td>
                     <td><?php echo htmlspecialchars($row['tipo']); ?></td>
@@ -148,10 +135,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
                             <button type="submit" name="deletar">Deletar</button>
                         </form>
                     </td>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Capacidade</th>
+                    <th>Descrição</th>
+                    <th>Ação</th>
                 </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                // Exibir registros existentes
+                $sql = "SELECT * FROM Espacos";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td><?php echo htmlspecialchars($row['tipo']); ?></td>
+                        <td><?php echo htmlspecialchars($row['capacidade']); ?></td>
+                        <td><?php echo htmlspecialchars($row['descricao']); ?></td>
+                    </tr>
+
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

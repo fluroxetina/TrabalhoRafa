@@ -1,3 +1,11 @@
+.titulo {
+    font-family: sans-serif;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+
+}
+
 .CadastrarNovoEspaco {
     max-width: 500px;
     margin: 50px auto; /* Centraliza o formulário */
@@ -9,7 +17,7 @@
     font-family: Arial, sans-serif;
 }
 
-.CadastrarNovoEspaco .titulos {
+.CadastrarNovoEspaco label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
@@ -48,4 +56,10 @@
 
 .CadastrarNovoEspaco button:hover {
     background-color: #0056b3;
+}
+
+.espacoCadastrados {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
