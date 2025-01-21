@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
     </form>
 
     <h1 class="titulo">Espaços Cadastrados</h1>
-    <div class="espacoCadastrados">
+    <!-- <div class="espacoCadastrados"> -->
         <table border="1">
             <thead>
                 <tr>
@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
                 <?php endwhile; ?>
             </tbody>
         </table>
-    </div>
+    <!-- </div> -->
 </body>
 
 </html>
