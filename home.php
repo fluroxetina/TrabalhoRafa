@@ -10,6 +10,7 @@
 
     <a href="CadastrarEspaco.php">Cadastrar Espaco</a>
     <a href="CadastrarUsuario.php">Cadastrar Usuario</a>
+    <a href="ReservarEspaco.php">Reservar Espaco</a>
     
 </body>
 </html>

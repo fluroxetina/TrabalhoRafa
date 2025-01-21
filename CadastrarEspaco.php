@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
     $descricao = trim($_POST['descricao']);
 
     if (empty($nome) || empty($tipo) || empty($capacidade) || empty($descricao)) {
-        $feedback = "Preencha todos os campos!";
+        echo "Preencha todos os campos!";
     } else {
         try {
             $sql = "INSERT INTO Espacos (nome, tipo, capacidade, descricao) VALUES(:nome, :tipo, :capacidade, :descricao)";
@@ -71,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
             $stmt->bindParam(":descricao", $descricao);
 
             if ($stmt->execute()) {
-                $feedback = "Espaço cadastrado com sucesso!";
+                echo "Espaço cadastrado com sucesso!";
             } else {
-                $feedback = "Erro ao cadastrar o espaço.";
+                echo "Erro ao cadastrar o espaço.";
             }
         } catch (PDOException $e) {
-            $feedback = "Erro: " . $e->getMessage();
+            echo "Erro: " . $e->getMessage();
         }
     }
 }
@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
     </form>
 
     <h1 class="titulo">Espaços Cadastrados</h1>
-    <!-- <div class="espacoCadastrados"> -->
+    <div class="espacoCadastrados">
         <table border="1">
             <thead>
                 <tr>
@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
                 <?php endwhile; ?>
             </tbody>
         </table>
-    <!-- </div> -->
+    </div>
 </body>
 
 </html>

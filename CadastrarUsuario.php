@@ -10,7 +10,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,15 +20,15 @@
 </head>
 <body>
     <h1>Cadastrar Usuario</h1>
-    <form action="" method="POST">
+    <form  method="POST">
         <label for="nome">Nome</label>
         <input type="text" name="nome" placeholder="Nome">
 
         <label for="email">E-mail</label>
         <input type="text" name="email" placeholder="E-mail">
 
-        <label for="Telefone">Telefone</label>
-        <input type="text" name="Telefone" placeholder="Telefone"></label>
+        <label for="telefone">Telefone</label>
+        <input type="text" name="telefone" placeholder="telefone"></label>
 
         <button type="submit">Cadastrar</button>
        
@@ -47,42 +47,92 @@
         </thead>
         <tbody>
             <?php 
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['nome']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Telefone']) . "</td>";
-                    echo "</tr>";
-                }
-            ?>
-        </tbody>
+                $sql = "SELECT * FROM Usuario";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td><?php echo htmlspecialchars($row["email"]);?></td>
+                        <td><?php echo htmlspecialchars($row["telefone"]); ?></td>
+                        <td>
+                            <a href="editarUsuario.php?id=<?php echo $row['idUsuario']; ?>">Editar</a>
+
+                            <form method="POST" style="display:inline">
+                                <input type="hidden" name="idUsuario" value="<?php echo $row['idUsuario']; ?>">
+                                <button type="submit" name="deletar">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>  
+                <?php } ?>     
+            </tbody>
     </table>
 </body>
 </html>
 
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST")
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar']))
     {
-        $nome = $_POST["nome"];
-        $email = $_POST["email"];
-        $Telefone = $_POST["Telefone"];
+        // var_dump($_POST);
+        $nome = trim($_POST["nome"]);
+        $email = trim($_POST["email"]);
+        $telefone = trim($_POST["telefone"]);
 
-        try
+        if(empty($nome) || empty($email) || empty($telefone))
         {
-            $sqlCode = "INSERT INTO Usuario(nome, email, telefone) VALUES (:nome, :email, :Telefone)";
-            $stmt = $conn->prepare($sqlCode);
-            $stmt->bindParam(":nome", $nome);
-            $stmt->bindParam(":email", $email);
-            $stmt->bindParam(":Telefone", $Telefone);
-            $stmt->execute();
-            echo "Cadastrado com sucesso!";
+            echo "preencha todos os campos!";
         }
-        catch(PDOException $e)
+        else
         {
-            echo "Erro: " . $e->getMessage();   
-        }
-        
+            try
+            {
+                $sqlCode = "INSERT INTO Usuario(nome, email, telefone) VALUES (:nome, :email, :telefone)";
+                $stmt = $conn->prepare($sqlCode);
+                $stmt->bindParam(":nome", $nome);
+                $stmt->bindParam(":email", $email);
+                $stmt->bindParam(":telefone", $telefone);
+                $stmt->execute();
+                echo "Cadastrado com sucesso!";
+                
+                header("Location: " . $_SERVER['PHP_SELF']);
+            }
+            catch(PDOException $e)
+            {
+                echo "Erro: " . $e->getMessage();   
+            }
+        }    
     }
 
+    if (isset($_POST['deletar'])) {
+        $idUsuario = intval($_POST['idUsuario']);
+        try {
+       
+            $checkSql = "SELECT COUNT(*) AS total FROM reserva WHERE idUsuarioE = :idUsuario";
+            $checkStmt = $conn->prepare($checkSql);
+            $checkStmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+            $checkStmt->execute();
+            $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
+    
+            
+            if ($result['total'] > 0) {
+                echo "Não é possível excluir o usuário, ele tem reservas associadas.";
+            } else {
+                
+                $deleteSql = "DELETE FROM Usuario WHERE idUsuario = :idUsuario";
+                $deleteStmt = $conn->prepare($deleteSql);
+                $deleteStmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    
+                if ($deleteStmt->execute()) {
+                    echo "Usuário deletado com sucesso!";
+                } else {
+                    echo "Erro ao deletar o usuário.";
+                }
+            }
+        } catch (PDOException $e) {
+            echo "Erro: " . $e->getMessage();
+        }
+    }
+    
+    
 ?>
