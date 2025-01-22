@@ -6,15 +6,15 @@ $conn = $db->connect();
 $sql = "SELECT * FROM Espacos";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-// Consulta para obter os valores ENUM
+
 $sql = "SHOW COLUMNS FROM Espacos LIKE 'tipo'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Extrair os valores ENUM
+
 if ($result) {
-    $type = $result['Type']; // Exemplo: "enum('Sala','Laboratórios','Quadras Esportivas')"
+    $type = $result['Type'];
     preg_match("/^enum\((.*)\)$/", $type, $matches);
     $enumValues = isset($matches[1]) ? explode(",", str_replace("'", "", $matches[1])) : [];
 } else {
@@ -23,12 +23,10 @@ if ($result) {
 
 
 
-
-// Lógica para deletar espaço
 if (isset($_POST['deletar'])) {
     $idEspaco = intval($_POST['idEspaco']);
     try {
-        // Verificar se o espaço está associado a uma reserva
+        
         $checkSql = "SELECT COUNT(*) AS total FROM reserva WHERE idEspacoE = :idEspaco";
         $checkStmt = $conn->prepare($checkSql);
         $checkStmt->bindParam(":idEspaco", $idEspaco, PDO::PARAM_INT);
@@ -51,7 +49,7 @@ if (isset($_POST['deletar'])) {
 }
 
 
-// Lógica para cadastrar espaço
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
     $nome = trim($_POST['nome']);
     $tipo = trim($_POST['tipo']);
@@ -131,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
             </thead>
             <tbody>
                 <?php
-                // Exibir registros existentes
+                
                 $sql = "SELECT * FROM Espacos";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();

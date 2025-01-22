@@ -8,7 +8,7 @@
 
 .CadastrarNovoEspaco {
     max-width: 500px;
-    margin: 50px auto; /* Centraliza o formulário */
+    margin: 50px auto; 
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -32,7 +32,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    box-sizing: border-box; /* Garante que padding não afeta o tamanho */
+    box-sizing: border-box; 
 }
 
 .CadastrarNovoEspaco input[type="text"]:focus,
