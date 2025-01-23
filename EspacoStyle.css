@@ -1,17 +1,16 @@
 .titulo {
     font-family: sans-serif;
-    font-size: 25px;
+    font-size: 40px;
     display: flex;
     justify-content: center;
-
 }
 
 .CadastrarNovoEspaco {
-    max-width: 500px;
+    max-width: 600px;
     margin: 50px auto; 
     padding: 20px;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
@@ -22,6 +21,7 @@
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
+    font-size: 25px;
 }
 
 .CadastrarNovoEspaco input[type="text"],
@@ -31,7 +31,7 @@
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 20px;
     box-sizing: border-box; 
 }
 
@@ -49,7 +49,7 @@
     border: none;
     border-radius: 4px;
     color: #fff;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -58,8 +58,47 @@
     background-color: #0056b3;
 }
 
-/* .espacoCadastrados {
+.espacoCadastrados {
     width: 100%;
     display: flex;
     justify-content: center;
-} */
+}
+
+.tabelatoda {
+    background-color: #055cb9;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+.tabelatoda button {
+    padding: 10px;
+    margin: 10px;
+    background-color: #043f7e;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.tabela , .tituloTabala{
+    font-size: 35px;
+    padding: 10px 20px;
+}
+
+.voltar {
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+}
+
+.home {
+    background-color: #0056b3;
+    color: white;
+    width: 100px;
+    font-size: 30px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}

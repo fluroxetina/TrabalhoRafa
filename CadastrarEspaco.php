@@ -26,7 +26,7 @@ if ($result) {
 if (isset($_POST['deletar'])) {
     $idEspaco = intval($_POST['idEspaco']);
     try {
-        
+
         $checkSql = "SELECT COUNT(*) AS total FROM reserva WHERE idEspacoE = :idEspaco";
         $checkStmt = $conn->prepare($checkSql);
         $checkStmt->bindParam(":idEspaco", $idEspaco, PDO::PARAM_INT);
@@ -42,8 +42,7 @@ if (isset($_POST['deletar'])) {
         } else {
             echo "Erro ao deletar o espaço.";
         }
-        }
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
 }
@@ -91,6 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
 </head>
 
 <body>
+
+    <div class="voltar">
+        <a href="home.php"><button class="home">Início</button></a>
+    </div>
+
     <h1 class="titulo">CADASTRAR NOVOS ESPAÇOS</h1>
     <form class="CadastrarNovoEspaco" method="POST">
         <label for="nome">Nome:</label>
@@ -115,11 +119,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
         <button type="submit">Cadastrar</button>
     </form>
 
+
+
     <h1 class="titulo">Espaços Cadastrados</h1>
     <div class="espacoCadastrados">
-        <table border="1">
+        <table border="1" class="tabelaToda">
             <thead>
-                <tr>
+                <tr class="tituloTabala">
                     <th>Nome</th>
                     <th>Tipo</th>
                     <th>Capacidade</th>
@@ -129,18 +135,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
             </thead>
             <tbody>
                 <?php
-                
+
                 $sql = "SELECT * FROM Espacos";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['nome']); ?></td>
-                        <td><?php echo htmlspecialchars($row['tipo']); ?></td>
-                        <td><?php echo htmlspecialchars($row['capacidade']); ?></td>
-                        <td><?php echo htmlspecialchars($row['descricao']); ?></td>
+                        <td class="tabela"><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td class="tabela"><?php echo htmlspecialchars($row['tipo']); ?></td>
+                        <td class="tabela"><?php echo htmlspecialchars($row['capacidade']); ?></td>
+                        <td class="tabela"><?php echo htmlspecialchars($row['descricao']); ?></td>
                         <td>
-                            <a href="editarEspaco.php?id=<?php echo $row['idEspacos']; ?>">Editar</a>
+                            <a href="editarEspaco.php?id=<?php echo $row['idEspacos']; ?>"><button>Editar</button></a>
 
                             <form method="POST" style="display:inline">
                                 <input type="hidden" name="idEspaco" value="<?php echo $row['idEspacos']; ?>">
