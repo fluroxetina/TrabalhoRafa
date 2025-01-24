@@ -18,6 +18,8 @@
             <a href="ReservarEspaco.php">Reservar Espaco</a>
         </nav>
     </div>
+    <input type="text" placeholder="Buscar">
+    
 </body>
 
 </html>

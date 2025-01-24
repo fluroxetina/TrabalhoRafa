@@ -112,21 +112,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit;
             }
             
-           
-            
-            $idUsuario = $usuario['idUsuario'];
-        
-        
-            $sql = "INSERT INTO reserva (idEspacoE, idUsuarioE) VALUES (:idEspaco, :idUsuario)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(":idEspaco", $idEspaco);
-            $stmt->bindParam(":idUsuario", $idUsuario);
-            $stmt->execute();
-            echo "Reserva feita com sucesso!";
+            $idUsuario = $usuario['idUsuario']; 
 
+            $sql = "SELECT * FROM reserva WHERE idUsuarioE = :id_usuario";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(":id_usuario", $idUsuario);
+            $stmt->execute();
+
+            $idDoUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if(!$idDoUsuario)
+            {
+                $sql = "INSERT INTO reserva (idEspacoE, idUsuarioE) VALUES (:idEspaco, :idUsuario)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(":idEspaco", $idEspaco);
+                $stmt->bindParam(":idUsuario", $idUsuario);
+                $stmt->execute();
+                echo "Reserva feita com sucesso!";
+                
+            }           
         }
-        
-        
+                
     } catch (PDOException $e) {
         echo "Erro ao realizar a reserva: " . $e->getMessage();
     }
