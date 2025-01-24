@@ -9,13 +9,15 @@
 </head>
 
 <body>
-    
+
     <h1>Reservas</h1>
-    <nav>
-        <a href="CadastrarEspaco.php">Cadastrar Espaco</a>
-        <a href="CadastrarUsuario.php">Cadastrar Usuario</a>
-        <a href="ReservarEspaco.php">Reservar Espaco</a>
-    </nav>
+    <div class="tabela">
+        <nav>
+            <a href="CadastrarEspaco.php">Cadastrar Espaco</a>
+            <a href="CadastrarUsuario.php">Cadastrar Usuario</a>
+            <a href="ReservarEspaco.php">Reservar Espaco</a>
+        </nav>
+    </div>
 </body>
 
 </html>
