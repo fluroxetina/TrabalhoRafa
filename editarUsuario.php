@@ -50,22 +50,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="EspacoStyle.css">
-    <link rel="stylesheet" href="homeStyle.css">
+    <link rel="stylesheet" href="CadastrarEspaco.css">
     <title>Editar Usuário</title>
 </head>
+
 <body>
-    <h1>Editar Usuário</h1>
-    <form method="POST">
+    <div class="voltar">
+        <a href="home.php"><button class="home">Início</button></a>
+    </div>
+
+    <h1 class="titulo">Editar Usuário</h1>
+
+    <form class="CadastrarNovoEspaco" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" value="<?php echo htmlspecialchars($usuario['nome']); ?>" required>
         <br>
 
         <label for="email">E-mail:</label>
-        <input type="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required>
+        <input type="text" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required>
         <br>
 
         <label for="telefone">Telefone:</label>
@@ -75,4 +81,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit">Salvar Alterações</button>
     </form>
 </body>
+
 </html>

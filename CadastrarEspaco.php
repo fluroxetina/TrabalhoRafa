@@ -120,10 +120,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['deletar'])) {
     </form>
 
 
-
     <h1 class="titulo">Espaços Cadastrados</h1>
     <div class="espacoCadastrados">
-        <table border="1" class="tabelaToda">
+        <table border="1"class="tabelaToda">
             <thead>
                 <tr class="tituloTabala">
                     <th>Nome</th>

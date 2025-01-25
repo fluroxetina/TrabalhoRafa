@@ -4,7 +4,7 @@ body {
     font-weight: bold;
 }
 
-.titulo {    
+.titulo {
     color: #ffffff;
     text-align: center;
     text-transform: uppercase;
@@ -12,18 +12,18 @@ body {
     padding: 20px;
     background: linear-gradient(90deg, #6a11cb, #2575fc);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;    
+    transition: transform 0.3s ease;
 }
 
 .voltar {
     padding-top: 20px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
 }
 
 .CadastrarNovoEspaco {
     max-width: 600px;
-    margin: 50px auto; 
+    margin: 50px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border: 2px solid #ddd;
@@ -48,7 +48,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 20px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 .CadastrarNovoEspaco input[type="text"]:focus,
@@ -74,6 +74,7 @@ body {
     background-color: #0056b3;
 }
 
+
 .espacoCadastrados {
     width: 100%;
     padding-bottom: 40px;
@@ -81,14 +82,15 @@ body {
     justify-content: center;
 }
 
-.tabelatoda {
-    background-color: #055cb9;
+
+ .tabelaToda {
+    background-color: #003063;
     border: none;
     color: white;
-    font-size: 20px;
-}
+    font-size: 15px;
+} 
 
-.tabelatoda button {
+.tabelaToda button {
     padding: 10px;
     margin: 10px;
     background-color: #043f7e;
@@ -99,11 +101,15 @@ body {
     cursor: pointer;
 }
 
-.tabela , .tituloTabala{
-    font-size: 35px;
+.tituloTabala {
+    font-size: 25px;
+    padding: 10px 20px;
+} 
+
+.tabela {
+    font-size: 25px;
     padding: 10px 20px;
 }
-
 
 .home {
     background-color: #0056b3;
@@ -113,4 +119,24 @@ body {
     border: none;
     border-radius: 20px;
     cursor: pointer;
+}
+
+.btn-cancelar {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;    
+}
+
+.btn-reserva {
+    background-color: #0b00aa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;    
 }

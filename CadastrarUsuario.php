@@ -40,38 +40,39 @@ $stmt->execute();
     </form>
 
     <h1 class="titulo">Usuarios Cadastrados</h1>
-
-    <table border="1" class="tabelaToda">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Telefone</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $sql = "SELECT * FROM Usuario";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['nome']); ?></td>
-                    <td><?php echo htmlspecialchars($row["email"]); ?></td>
-                    <td><?php echo htmlspecialchars($row["telefone"]); ?></td>
-                    <td>
-                        <a href="editarUsuario.php?id=<?php echo $row['idUsuario']; ?>">Editar</a>
-
-                        <form method="POST" style="display:inline">
-                            <input type="hidden" name="idUsuario" value="<?php echo $row['idUsuario']; ?>">
-                            <button type="submit" name="deletar">Deletar</button>
-                        </form>
-                    </td>
+    <div class="espacoCadastrados">
+        <table border="1" class="tabelaToda">
+            <thead>
+                <tr class="tituloTabala">
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Ação</th>
                 </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT * FROM Usuario";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                    <tr>
+                        <td class="tabela"><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td class="tabela"><?php echo htmlspecialchars($row["email"]); ?></td>
+                        <td class="tabela"><?php echo htmlspecialchars($row["telefone"]); ?></td>
+                        <td>
+                            <a href="editarUsuario.php?id=<?php echo $row['idUsuario']; ?>"><button>Editar</button></a>
+
+                            <form method="POST" style="display:inline">
+                                <input type="hidden" name="idUsuario" value="<?php echo $row['idUsuario']; ?>">
+                                <button type="submit" name="deletar">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

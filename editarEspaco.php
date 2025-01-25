@@ -66,13 +66,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Espaço</title>   
+    <link rel="stylesheet" href="CadastrarEspaco.css">
+    <title>Editar Espaço</title>
 </head>
+
 <body>
-    <h1 class="h1espaco">Editar Espaço</h1>
+
+    <div class="voltar">
+        <a href="home.php"><button class="home">Início</button></a>
+    </div>
+    
+    <h1 class="titulo">Editar Espaço</h1>
     <form class="CadastrarNovoEspaco" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" value="<?php echo htmlspecialchars($espaco['nome']); ?>" required>
@@ -97,5 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit">Salvar Alterações</button>
     </form>
 </body>
+
 </html>
+
 </html>
