@@ -69,11 +69,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Espaço</title>
+    <title>Editar Espaço</title>   
 </head>
 <body>
-    <h1>Editar Espaço</h1>
-    <form method="POST">
+    <h1 class="h1espaco">Editar Espaço</h1>
+    <form class="CadastrarNovoEspaco" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" value="<?php echo htmlspecialchars($espaco['nome']); ?>" required>
 
