@@ -68,7 +68,7 @@ $conn = $db->connect();
         </form>
     </div>
     <div class="espacoCadastrados" >
-        <table border="1" >
+        <table border="1" class="tabelaToda">
             <thead>
                 <tr class="tituloTabala">
                     <th>Espaço</th>

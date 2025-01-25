@@ -84,7 +84,7 @@ body {
 
 
  .tabelaToda {
-    background-color: #003063;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
     border: none;
     color: white;
     font-size: 15px;
