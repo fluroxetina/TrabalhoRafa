@@ -49,6 +49,13 @@ $conn = $db->connect();
         </tbody>
     </table>
     <h1>Espaços Reservados</h1>
+    <!-- botao de buscar reserva -->
+    <form method="GET" >   
+        <label for="buscar">Buscar </label>
+        <input type="text" name="buscar" placeholder="Buscar">
+        <button>Buscar</button>
+    </form>
+    
     <table border="1">
         <thead>
             <tr>
@@ -57,6 +64,7 @@ $conn = $db->connect();
                 <th>Capacidade</th>
                 <th>Data Reserva</th>
                 <th>Usuário</th>
+                <th>Cancelar</th>
             </tr>
         </thead>
         <tbody>
@@ -80,16 +88,77 @@ $conn = $db->connect();
                     <td><?php echo htmlspecialchars($row['espaco_tipo']); ?></td>
                     <td><?php echo htmlspecialchars($row['espaco_capacidade']); ?></td>
                     <td><?php echo htmlspecialchars($row['data_reserva']); ?></td>
-                    <td><?php echo htmlspecialchars($row['usuario_nome']); ?></td>
+                    <td><?php echo htmlspecialchars($row['usuario_nome']); ?></td> 
+                    <td>
+                        <form method="POST" style="display: inline;">
+                            <input type="hidden" name="espaco_nome" value="<?php echo htmlspecialchars($row['espaco_nome']); ?>">
+                            <button type="submit" name="cancelar">Cancelar</button>
+                        </form>
+                    </td>                  
                 </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
+
 </body>
 </html>
 
+
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_GET['buscar'])) {
+    $buscar = trim($_GET['buscar']); 
+
+    if (!empty($buscar)) {
+        try {
+           
+            $sql = "SELECT * FROM Espacos WHERE nome LIKE :buscar";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(":buscar", '%' . $buscar . '%'); 
+            $stmt->execute();
+
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($resultados) > 0) {
+                echo "<h2>Resultados da Busca:</h2>";
+                echo "<table border='1'>";
+                echo "<thead>
+                        <tr>
+                            <th>Espaço</th>
+                            <th>Tipo</th>
+                            <th>Capacidade</th>
+                            <th>Descrição</th>
+                        </tr>
+                      </thead>";
+                echo "<tbody>";
+
+                foreach ($resultados as $resultado) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($resultado['nome']) . "</td>";
+                    echo "<td>" . htmlspecialchars($resultado['tipo']) . "</td>";
+                    echo "<td>" . htmlspecialchars($resultado['capacidade']) . "</td>";
+                    echo "<td>" . htmlspecialchars($resultado['descricao']) . "</td>";
+                    echo "</tr>";
+                }
+
+                echo "</tbody>";
+                echo "</table>";
+            } else {
+                echo "<p>Nenhum resultado encontrado para: <strong>" . htmlspecialchars($buscar) . "</strong></p>";
+            }
+        } catch (PDOException $e) {
+            echo "<p>Erro ao realizar a busca: " . htmlspecialchars($e->getMessage()) . "</p>";
+        }
+    } else {
+        echo "<p>Por favor, insira um termo para buscar.</p>";
+    }
+}
+?>
+
+
+
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['cancelar'])) {
     $idEspaco = $_POST["idEspaco"];
     $nomeUsuario = $_POST['nomeUsuario'];
 
@@ -128,13 +197,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bindParam(":idEspaco", $idEspaco);
                 $stmt->bindParam(":idUsuario", $idUsuario);
                 $stmt->execute();
-                echo "Reserva feita com sucesso!";
-                
-            }           
+                echo "Reserva feita com sucesso!";                
+            }   
+            else{
+                echo "Usuário já possui reserva!";
+            }        
         }
                 
     } catch (PDOException $e) {
         echo "Erro ao realizar a reserva: " . $e->getMessage();
     }
+
+
+   
+}
+
+if(isset($_POST['cancelar']))
+{
+    $NomeEspaco = $_POST["espaco_nome"];
+    $sql = "DELETE FROM reserva WHERE idEspacoE = (SELECT idEspacos FROM Espacos WHERE nome = :espaco_nome)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":espaco_nome", $NomeEspaco);
+    $stmt->execute();
+    echo "Reserva cancelada com sucesso!";
+
 }
 ?>
