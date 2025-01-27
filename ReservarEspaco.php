@@ -48,8 +48,8 @@ $conn = $db->connect();
                         <td>
                             <form method="POST" action="ReservarEspaco.php">
                                 <input type="hidden" name="idEspaco" value="<?php echo htmlspecialchars($row['idEspacos']); ?>">
-                                <label for="nomeUsuario">Nome:</label>
-                                <input type="text" name="nomeUsuario" placeholder="Digite o nome" required>
+                                <label class="NomeUsuario" for="nomeUsuario">Nome:</label>
+                                    <input class="inp-btn" type="text" name="nomeUsuario" placeholder="Digite o nome" required>
                                 <button class="btn-reserva" type="submit">Reservar</button>
                             </form>
                         </td>
@@ -67,7 +67,7 @@ $conn = $db->connect();
             <button class="buscar">Buscar</button>
         </form>
     </div>
-    <div class="espacoCadastrados" >
+    <div class="espacoCadastrados">
         <table border="1" class="tabelaToda">
             <thead>
                 <tr class="tituloTabala">
