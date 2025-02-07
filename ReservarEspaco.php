@@ -27,7 +27,7 @@ $conn = $db->connect();
             <thead>
                 <tr class="tituloTabala">
                     <th>Nome</th>
-                    <th>Tipo</th>
+                    <th>Tipo</th>   
                     <th>Capacidade</th>
                     <th>Descrição</th>
                     <th>Reservar</th>
@@ -166,9 +166,6 @@ if (isset($_GET['buscar'])) {
     }
 }
 ?>
-
-
-
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['cancelar'])) {
